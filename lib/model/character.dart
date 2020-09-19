@@ -11,9 +11,9 @@ class Character {
 
 List characters = [
   Character(
-      name: "Kevin",
-      imagePath: "assets/images/Green_Au.jpg",
+      name: "Red",
+      imagePath: "assets/images/red_only.png",
       description: "green",
-      colors: [Colors.green.shade200, Colors.lightGreen.shade400]
+      colors: [Colors.red.shade200, Colors.red.shade400]
   ),
 ];
