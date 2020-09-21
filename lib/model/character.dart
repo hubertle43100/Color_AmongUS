@@ -13,7 +13,7 @@ List characters = [
   Character(
       name: "Red",
       imagePath: "assets/images/red_only.png",
-      description: "green",
+      description: "red is so cool i wish i was red",
       colors: [Colors.red.shade200, Colors.red.shade400]
   ),
 ];

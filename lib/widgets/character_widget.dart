@@ -21,6 +21,8 @@ class CharacterWidget extends StatelessWidget{
             alignment: Alignment.bottomCenter,
             child: ClipPath(
               clipper: CharacterCardBackgroundClipper(),
+              child: Hero (
+                tag: "background-${characters[0].name}",
               child: Container(
                 height: 0.55 * screenHeight,  //0.55 = 55% of the screen
                 width: 0.9 * screenWidth,
@@ -33,22 +35,39 @@ class CharacterWidget extends StatelessWidget{
                 ),
               ),
             ),
+            ),
           ),
           Align(
             alignment: Alignment(0,-0.5),  //moves image around
+            child:Hero(
+              tag: "image-{$characters[0].name}",
               child: Image.asset(
                 characters[0].imagePath,
                 height: screenHeight * 0.55,
               ),
             ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 48, right: 16, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(characters[0].name, style: AppTheme.heading,),
-                Text("Tap to read more", style: AppTheme.subHeading,)
+                Hero(
+                  tag: "name-${characters[0].name}",
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      child: Text(
+                        characters[0].name,
+                        style: AppTheme.heading,
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  "Tap to read more",
+                  style: AppTheme.subHeading,)
               ],
             ),
           ),
