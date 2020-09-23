@@ -20,7 +20,7 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Hero(
+          Hero( //animation stuff
             tag: "background-${widget.character.name}",
             child: DecoratedBox(
               decoration:  BoxDecoration(
@@ -51,18 +51,18 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                 Align(
                   alignment: Alignment.topRight,
                     child: Hero(
-                        tag: "image-{$widget.character.name}",
+                        tag: "image-${widget.character.name}",    //move the among us character =>
                         child: Image.asset(widget.character.imagePath, height: screenHeight * 0.45)),
                   //getting the character image, name and description from the other class
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
                   child:Hero(
-                    tag: "name-{$widget.character.name}",
+                    tag: "name-${widget.character.name}",   //move the name =>
                     child: Material(
                       color: Colors.transparent,
                         child: Container(
-                          child: Text(widget.character.name, style: AppTheme.heading)
+                          child: Text(widget.character.name, style: AppTheme.heading),
                           ),
                       ),
                   ),

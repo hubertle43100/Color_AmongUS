@@ -4,6 +4,10 @@ import 'package:amongus/styleguide.dart';
 import 'package:flutter/material.dart';
 
 class CharacterWidget extends StatelessWidget{
+  final Character character;
+
+  const CharacterWidget({Key key, this.character}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;   // taken account of the size (height) of any device
@@ -13,7 +17,7 @@ class CharacterWidget extends StatelessWidget{
       onTap: () {
         Navigator.push(context, PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 350),
-          pageBuilder: (context,_,__) => CharacterDetailScreen(character: characters[0])));
+          pageBuilder: (context,_,__) => CharacterDetailScreen(character: character)));
       },
       child: Stack(
         children: [
@@ -22,13 +26,13 @@ class CharacterWidget extends StatelessWidget{
             child: ClipPath(
               clipper: CharacterCardBackgroundClipper(),
               child: Hero (
-                tag: "background-${characters[0].name}",
+                tag: "background-${character.name}",
               child: Container(
                 height: 0.55 * screenHeight,  //0.55 = 55% of the screen
                 width: 0.9 * screenWidth,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: characters[0].colors, //comes from the character class
+                    colors: character.colors, //comes from the character class
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft
                   )
@@ -40,26 +44,26 @@ class CharacterWidget extends StatelessWidget{
           Align(
             alignment: Alignment(0,-0.5),  //moves image around
             child:Hero(
-              tag: "image-{$characters[0].name}",
+              tag: "image-${character.name}",  //make sure it's characters[0] or the animation will not work
               child: Image.asset(
-                characters[0].imagePath,
+                character.imagePath,
                 height: screenHeight * 0.55,
               ),
             ),
           ),
-          Padding(
+          Padding(    //basically making safe areas for the text/heading
             padding: const EdgeInsets.only(left: 48, right: 16, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Hero(
-                  tag: "name-${characters[0].name}",
+                Hero(  //I think hero is the animation to drag the image to a specific spot
+                  tag: "name-${character.name}",  //can be replace with $widget.character.name
                   child: Material(
-                    color: Colors.transparent,
-                    child: Container(
-                      child: Text(
-                        characters[0].name,
+                   color: Colors.transparent,
+                   child: Container(
+                     child: Text(
+                        character.name,
                         style: AppTheme.heading,
                       ),
                     ),

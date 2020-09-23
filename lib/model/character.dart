@@ -16,4 +16,10 @@ List characters = [
       description: "red is so cool i wish i was red",
       colors: [Colors.red.shade200, Colors.red.shade400]
   ),
+  Character(
+      name: "Cyan",
+      imagePath: "assets/images/Cyan.png",
+      description: "Cyan is so cool i wish i was Cyan",
+      colors: [Colors.cyan.shade100, Colors.cyan.shade400]
+  ),
 ];

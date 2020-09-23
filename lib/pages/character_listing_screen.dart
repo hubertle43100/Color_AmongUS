@@ -1,3 +1,4 @@
+import 'package:amongus/model/character.dart';
 import 'package:amongus/styleguide.dart';
 import 'package:amongus/widgets/character_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,19 @@ class CharacterListingScreen extends StatefulWidget {
 }
 
 class _CharacterListingScreenState extends State<CharacterListingScreen> {
+  PageController _pageController; //page controller lets you wipe to other character
+  int currentPage = 0;
+
+  @override
+  void initState(){
+    super.initState();
+    _pageController = PageController(
+      viewportFraction: 1.0, //take us from left of the screen to right
+      initialPage: currentPage,
+      keepPage: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +53,14 @@ class _CharacterListingScreenState extends State<CharacterListingScreen> {
                 ),
               ),
               Expanded(
-                child: CharacterWidget(),
+                child: PageView(
+                  controller: _pageController,
+                  children: <Widget>[
+                    for (var i = 0; i< characters.length; i++)   //for loop displays two or more specified
+                                                                  // character(how many you have in your character class
+                      CharacterWidget(character: characters[i])
+                  ],
+                ),
               )
             ],
           ),
