@@ -58,7 +58,7 @@ class _CharacterListingScreenState extends State<CharacterListingScreen> {
                   children: <Widget>[
                     for (var i = 0; i< characters.length; i++)   //for loop displays two or more specified
                                                                   // character(how many you have in your character class
-                      CharacterWidget(character: characters[i])
+                      CharacterWidget(character: characters[i], pageController: _pageController, currentPage: i)
                   ],
                 ),
               )

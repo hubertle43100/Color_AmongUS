@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 
 class CharacterWidget extends StatelessWidget{
   final Character character;
+  final PageController pageController;
+  final int currentPage;
 
-  const CharacterWidget({Key key, this.character}) : super(key: key);
+
+  const CharacterWidget({Key key, this.character, this.pageController, this.currentPage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,63 +22,73 @@ class CharacterWidget extends StatelessWidget{
           transitionDuration: const Duration(milliseconds: 350),
           pageBuilder: (context,_,__) => CharacterDetailScreen(character: character)));
       },
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipPath(
-              clipper: CharacterCardBackgroundClipper(),
-              child: Hero (
-                tag: "background-${character.name}",
-              child: Container(
-                height: 0.55 * screenHeight,  //0.55 = 55% of the screen
-                width: 0.9 * screenWidth,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: character.colors, //comes from the character class
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft
-                  )
-                ),
-              ),
-            ),
-            ),
-          ),
-          Align(
-            alignment: Alignment(0,-0.5),  //moves image around
-            child:Hero(
-              tag: "image-${character.name}",  //make sure it's characters[0] or the animation will not work
-              child: Image.asset(
-                character.imagePath,
-                height: screenHeight * 0.55,
-              ),
-            ),
-          ),
-          Padding(    //basically making safe areas for the text/heading
-            padding: const EdgeInsets.only(left: 48, right: 16, bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Hero(  //I think hero is the animation to drag the image to a specific spot
-                  tag: "name-${character.name}",  //can be replace with $widget.character.name
-                  child: Material(
-                   color: Colors.transparent,
-                   child: Container(
-                     child: Text(
-                        character.name,
-                        style: AppTheme.heading,
+      child: AnimatedBuilder(
+        animation: pageController,
+        builder: (context, child) {
+          double value = 1;
+          if(pageController.position.haveDimensions){    //this keep track of where the user is on the page
+            value = pageController.page - currentPage;   //starting from 0.4 => 1.0 (help scale img)
+            value = (1 - (value.abs()* 0.6)).clamp(0,1);
+          }
+          return Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ClipPath(
+                  clipper: CharacterCardBackgroundClipper(),
+                  child: Hero (
+                    tag: "background-${character.name}",
+                    child: Container(
+                      height: 0.55 * screenHeight,  //0.55 = 55% of the screen
+                      width: 0.9 * screenWidth,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: character.colors, //comes from the character class
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft
+                          )
                       ),
                     ),
                   ),
                 ),
-                Text(
-                  "Tap to read more",
-                  style: AppTheme.subHeading,)
-              ],
-            ),
-          ),
-        ],
+              ),
+              Align(
+                alignment: Alignment(0,-0.5),  //moves image around
+                child:Hero(
+                  tag: "image-${character.name}",  //make sure it's characters[0] or the animation will not work
+                  child: Image.asset(
+                    character.imagePath,
+                    height: screenHeight * 0.55 * value,
+                  ),
+                ),
+              ),
+              Padding(    //basically making safe areas for the text/heading
+                padding: const EdgeInsets.only(left: 48, right: 16, bottom: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Hero(  //I think hero is the animation to drag the image to a specific spot
+                      tag: "name-${character.name}",  //can be replace with $widget.character.name
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Container(
+                          child: Text(
+                            character.name,
+                            style: AppTheme.heading,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "Tap to read more",
+                      style: AppTheme.subHeading,)
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

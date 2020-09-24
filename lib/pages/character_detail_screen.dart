@@ -74,6 +74,12 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
               ],
             ),
           ),
+          // Positioned(
+          //   bottom: 0,
+          //   left: 0,
+          //   right: 0,
+          //   child: ,
+          // )
         ],
       ),
     );
